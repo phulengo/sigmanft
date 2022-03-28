@@ -1,16 +1,29 @@
-html,
-body {
-	padding: 0;
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-		Helvetica Neue, sans-serif;
+/* TailwindCSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--colors-black: #000000;
+	--colors-white: '#FFFFFF';
+	--colors-sonic-silver: '#717171';
+	--colors-platinum: '#E3E3E3';
+	--colors-silver: '#C6C6C6';
+	--colors-silver-chalice: '#AAAAAA';
+	--colors-spanish-grey: '#8E8E8E';
+	--colors-jet: '#393939';
+	--colors-eerie-black: '#1C1C1C';
+	--colors-caribbean-green: '#34D399';
+	--colors-caribbean-green-25: '#CCF4E5';
+	--colors-orange-yellow: '#FBBF24';
+	--colors-orange-yellow-25: '#FEEFC8';
+	--colors-ultra-red: '#FB7185';
+	--colors-ultra-red-25: '#FEDBE0';
 }
 
-a {
-	color: inherit;
-	text-decoration: none;
+@layer base {
 }
-
-* {
-	box-sizing: border-box;
+@layer components {
+}
+@layer utilities {
 }

@@ -1,26 +1,15 @@
-# **NextJS**, **TailwindCSS**, **TypeScript** Starter
+# Basic Sample Hardhat Project
 
-## What are in this starter kit?
+This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
 
-Beside the combination of _NextJS_, _TailwindCSS_, and _TypeScript_, these package are also added and configured together.
+Try running some of the following tasks:
 
-- [x] ESLint
-- [x] Babel
-- [x] Prettier
-- [x] Husky/Lintstaged
-
-## How to use?
-
-1. Clone this repo
-
-2. `yarn install`
-
-3. `yarn dev`
-
-4. Check out [http://localhost:3000/](http://localhost:3000/)
-
-5. Enjoy
-
-## What can I do with this repo?
-
-It's up to you, this is just _a basic setup_ for later use.
+```shell
+npx hardhat accounts
+npx hardhat compile
+npx hardhat clean
+npx hardhat test
+npx hardhat node
+node scripts/sample-script.js
+npx hardhat help
+```

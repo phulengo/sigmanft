@@ -1,8 +1,10 @@
 module.exports = {
 	env: {
-		browser: true,
-		node: true,
+		browser: false,
 		es2021: true,
+		mocha: true,
+		node: true,
+		'jest/globals': true,
 	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
@@ -14,7 +16,7 @@ module.exports = {
 			jsx: true,
 		},
 	},
-	plugins: ['@typescript-eslint', 'jsx-a11y', 'react', 'prettier', 'eslint-plugin-import-helpers'],
+	plugins: ['@typescript-eslint', 'jsx-a11y', 'react', 'prettier', 'eslint-plugin-import-helpers', 'jest'],
 	extends: [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -42,10 +44,14 @@ module.exports = {
 				newlinesBetween: 'never',
 				groups: [
 					'module',
+					'/^contracts/',
+					'/^scripts/',
+					'/^artifacts/',
 					'/^components/',
 					'/^pages/',
 					'/^public/',
 					'/^styles/',
+					'/^lib/',
 					'/^util/',
 					['parent', 'sibling', 'index'],
 				],
@@ -57,6 +63,11 @@ module.exports = {
 		'@typescript-eslint/no-non-null-assertion': 'off',
 		'react/jsx-filename-extension': [1, { extensions: ['.tsx', 'jsx'] }],
 		'react/prop-types': 0,
+		'jest/no-disabled-tests': 'warn',
+		'jest/no-focused-tests': 'error',
+		'jest/no-identical-title': 'error',
+		'jest/prefer-to-have-length': 'warn',
+		'jest/valid-expect': 'error',
 	},
 	settings: {
 		react: {
