@@ -5,3 +5,4 @@ coverage
 .next
 !.eslintrc.js
 !.babelrc.js
+test
