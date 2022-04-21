@@ -44,6 +44,10 @@ declare module "hardhat/types/runtime" {
       name: "SigmaNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SigmaNFT__factory>;
+    getContractFactory(
+      name: "SigmaNFTMarketplace",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SigmaNFTMarketplace__factory>;
 
     getContractAt(
       name: "ERC721",
@@ -85,6 +89,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SigmaNFT>;
+    getContractAt(
+      name: "SigmaNFTMarketplace",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SigmaNFTMarketplace>;
 
     // default types
     getContractFactory(

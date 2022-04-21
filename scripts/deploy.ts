@@ -10,10 +10,14 @@ const main = async () => {
 	console.log('Account balance:', (await deployer.getBalance()).toString());
 
 	// Deploy contracts
-	const SigmaNFT = (await ethers.getContractFactory('SigmaNFT')) as ContractFactory;
+	const SigmaNFT = (await ethers.getContractFactory('SigmaNFT')) as ContractFactory; // NFT
 	const nft = await SigmaNFT.deploy();
 
+	const SigmaNFTMarketplace = await ethers.getContractFactory('SigmaNFTMarketplace'); // Marketplace
+	const marketplace = await SigmaNFTMarketplace.deploy(1); // initialize 5 fee per sale
+
 	console.log('SigmaNFT contract address', nft.address);
+	console.log('SigmaNFT Marketplace contract address', marketplace.address);
 
 	// For each contract, save copies of abi and address to the frontend.
 	saveFrontendFiles(SigmaNFT, 'SigmaNFT');

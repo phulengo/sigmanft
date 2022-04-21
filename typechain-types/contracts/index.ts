@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { SigmaNFT } from "./SigmaNFT";
+export type { SigmaNFTMarketplace } from "./SigmaNFTMarketplace";

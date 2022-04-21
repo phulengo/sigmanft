@@ -22,3 +22,5 @@ export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
 export type { SigmaNFT } from "./contracts/SigmaNFT";
 export { SigmaNFT__factory } from "./factories/contracts/SigmaNFT__factory";
+export type { SigmaNFTMarketplace } from "./contracts/SigmaNFTMarketplace";
+export { SigmaNFTMarketplace__factory } from "./factories/contracts/SigmaNFTMarketplace__factory";
