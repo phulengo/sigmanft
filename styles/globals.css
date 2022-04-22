@@ -5,25 +5,369 @@
 
 :root {
 	--colors-black: #000000;
-	--colors-white: '#FFFFFF';
-	--colors-sonic-silver: '#717171';
-	--colors-platinum: '#E3E3E3';
-	--colors-silver: '#C6C6C6';
-	--colors-silver-chalice: '#AAAAAA';
-	--colors-spanish-grey: '#8E8E8E';
-	--colors-jet: '#393939';
-	--colors-eerie-black: '#1C1C1C';
-	--colors-caribbean-green: '#34D399';
-	--colors-caribbean-green-25: '#CCF4E5';
-	--colors-orange-yellow: '#FBBF24';
-	--colors-orange-yellow-25: '#FEEFC8';
-	--colors-ultra-red: '#FB7185';
-	--colors-ultra-red-25: '#FEDBE0';
+	--colors-white: "#FFFFFF";
+	--colors-sonic-silver: "#717171";
+	--colors-platinum: "#E3E3E3";
+	--colors-silver: "#C6C6C6";
+	--colors-silver-chalice: "#AAAAAA";
+	--colors-spanish-grey: "#8E8E8E";
+	--colors-jet: "#393939";
+	--colors-eerie-black: "#1C1C1C";
+	--colors-caribbean-green: "#34D399";
+	--colors-caribbean-green-25: "#CCF4E5";
+	--colors-orange-yellow: "#FBBF24";
+	--colors-orange-yellow-25: "#FEEFC8";
+	--colors-ultra-red: "#FB7185";
+	--colors-ultra-red-25: "#FEDBE0";
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Thin.ttf");
+	font-style: normal;
+	font-weight: 100;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-ThinItalic.ttf");
+	font-style: italic;
+	font-weight: 100;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-ExtraLight.ttf");
+	font-style: normal;
+	font-weight: 200;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-ExtraLightItalic.ttf");
+	font-style: italic;
+	font-weight: 200;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Light.ttf");
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-LightItalic.ttf");
+	font-style: italic;
+	font-weight: 300;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Regular.ttf");
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Regular-Italic.ttf");
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Medium.ttf");
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Medium-Italic.ttf");
+	font-style: italic;
+	font-weight: 500;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-SemiBold.ttf");
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-SemiBold-Italic.ttf");
+	font-style: italic;
+	font-weight: 600;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Bold.ttf");
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Bold-Italic.ttf");
+	font-style: italic;
+	font-weight: 700;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-ExtraBold.ttf");
+	font-style: normal;
+	font-weight: 800;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-ExtraBold-Italic.ttf");
+	font-style: italic;
+	font-weight: 800;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Black.ttf");
+	font-style: normal;
+	font-weight: 900;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Be Vietnam Pro";
+	src: url("/fonts/BeVietnamPro-Black-Italic.ttf");
+	font-style: italic;
+	font-weight: 900;
+	font-display: swap;
 }
 
 @layer base {
+	h1 {
+		@apply text-heading-3 font-semi-bold;
+	}
+
+	input {
+		@apply py-3 px-4 border border-silver rounded-lg;
+	}
+
+	input::placeholder {
+		@apply text-silver;
+	}
+
+	header,
+	main {
+		@apply max-w-[1600px] m-auto;
+	}
 }
 @layer components {
+	.navigation-bar {
+		@apply p-6  flex flex-row justify-between;
+	}
+
+	.navigation-bar--open {
+		@apply bg-white;
+		@apply px-6 pb-6 fixed bottom-0 top-[calc(64px+48px)] left-0 right-0;
+		@apply hidden xs:block sm:block md:block;
+	}
+
+	.navigation-bar--close {
+		@apply hidden;
+	}
+
+	.nav-search-menu--mobile {
+		@apply lg:hidden xl:hidden !important;
+		@apply flex flex-row gap-4;
+	}
+
+	.nav-search-menu--desktop,
+	.nav-search-menu--desktop .search-bar {
+		@apply hidden;
+		@apply lg:flex xl:flex w-full;
+	}
+
+	.nav-search-menu__action {
+		@apply flex flex-auto items-center;
+	}
+
+	.nav-search-menu--mobile .nav-bar__link {
+		@apply text-heading-3 text-black;
+	}
+
+	.nav-bar__link {
+		@apply text-subtitle font-semi-bold text-sonic-silver;
+		@apply mr-8;
+	}
+
+	.nav-bar__link:hover {
+		@apply text-black cursor-pointer;
+	}
+
+	.nav-search-menu__action button {
+		@apply px-16 whitespace-nowrap text-subtitle;
+	}
+
+	.icon__padding {
+		@apply bg-white rounded-full p-4 shadow-0;
+	}
+
+	.icon__padding:hover {
+		@apply shadow-1 cursor-pointer;
+	}
+
+	.btn-primary {
+		@apply h-[64px] bg-black text-white rounded-lg py-4 font-semi-bold text-heading-5;
+	}
+
+	.btn-primary:hover {
+		@apply shadow-2;
+		@apply -translate-y-0.5;
+	}
+
+	.social-icons {
+		@apply flex flex-row xs:justify-between xs:w-full sm:justify-between sm:w-full;
+		@apply md:justify-center md:gap-8;
+	}
+
+	.social-icons svg {
+		@apply stroke-1;
+	}
+
+	.terms-privacy {
+		@apply flex flex-col gap-2 justify-center items-center;
+	}
+
+	.terms-privacy__link {
+		@apply text-footer font-semi-bold text-sonic-silver;
+	}
+	.terms-privacy__link:hover {
+		@apply text-black;
+	}
+
+	.search-bar {
+		@apply relative flex items-center;
+		@apply font-semi-bold;
+		@apply px-8;
+	}
+
+	.search-bar .search-bar__icon {
+		@apply absolute -translate-y-1/2 top-1/2;
+		@apply px-2;
+	}
+
+	.search-bar .search-bar__field {
+		@apply pl-[calc(8px+32px+8px)];
+		@apply font-semi-bold text-subtitle;
+		@apply w-full;
+	}
+
+	.search-bar .search-bar__field:focus {
+		@apply outline-black outline-8 outline-offset-2;
+	}
+
+	.search-bar__icon--focus svg {
+		@apply stroke-black;
+	}
+
+	.modal-container {
+		@apply fixed inset-x-0 bg-white rounded-lg p-6 z-50;
+		/* Center fixed el */
+		@apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+
+		@apply xs:w-[calc(100%-48px)] sm:w-[calc(85%-48px)] md:w-[calc(65%-48px)] lg:w-[calc(50%-48px)]
+		xl:w-[calc(35%-48px)];
+	}
+
+	.modal-bg {
+		@apply fixed inset-0 bg-black opacity-50 z-50;
+	}
+
+	.modal-header {
+		@apply relative;
+
+		@apply flex flex-col;
+
+		@apply min-h-[32px];
+
+		@apply border-b border-platinum;
+	}
+
+	.modal-header h1 {
+		@apply text-center pb-4 text-heading-4;
+		@apply xs:text-left;
+	}
+
+	.modal-content {
+		@apply flex flex-col;
+		@apply max-h-[75vh] overflow-y-auto;
+	}
+
+	.modal__button--close {
+		@apply absolute top-[24px] right-[24px];
+
+		@apply h-auto rounded-full items-start border border-black !important;
+
+		@apply p-2 z-30;
+	}
+
+	.modal__button--close:hover {
+		@apply shadow-1 bg-black;
+	}
+
+	.modal__button--close:hover svg {
+		@apply stroke-white;
+	}
+
+	.wallet-options__wrapper {
+		@apply flex flex-col gap-4;
+	}
+
+	.wallet-options__button {
+		@apply bg-black text-white rounded-lg min-h-[64px];
+		@apply font-semi-bold text-subtitle;
+	}
+
+	.wallet-options__button:hover {
+		@apply shadow-2 -translate-y-0.5;
+	}
+
+	.wallet-style--metamask {
+		background: radial-gradient(100% 2956.64% at 0% 60.16%, #f6e01b 0.33%, #f6851b 99.65%);
+	}
+
+	.wallet-style--walletconnect {
+		background: radial-gradient(100% 2956.64% at 100% 100%, #007cff 0%, #9a1bff 100%);
+	}
+
+	.text-link {
+		@apply font-semi-bold text-sonic-silver;
+	}
+
+	.text-link:hover {
+		@apply text-black cursor-pointer;
+	}
 }
 @layer utilities {
 }

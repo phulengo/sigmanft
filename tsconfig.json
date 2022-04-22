@@ -9,17 +9,16 @@
 		"noEmit": true,
 		"esModuleInterop": true,
 		"outDir": "dist",
-		"declaration": true,
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
-		"baseUrl": ".",
-		"paths": {
-			"*": ["node_modules/*"]
-		}
+		"baseUrl": "."
+		// "paths": {
+		// 	"*": ["node_modules/*"]
+		// }
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.*.js", "./scripts", "./test", "./typechain"],
 	"exclude": ["node_modules"],

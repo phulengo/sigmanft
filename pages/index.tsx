@@ -1,10 +1,18 @@
-import type { NextPage } from 'next';
-// import Greeter from 'artifacts/contracts/Greeter.sol/Greeter.json';
+import type { NextPage } from "next";
+import { useState } from "react";
+import Header from "components/Header";
 
 const Home: NextPage = () => {
-	// console.log('ABI', Greeter?.abi);
+	const [account, setAccount] = useState(null);
 
-	return <main>Hello world!</main>;
+	return (
+		<>
+			<Header />
+			<main>
+				<h1 className="text-heading-1">Hello world!</h1>
+			</main>
+		</>
+	);
 };
 
 export default Home;
