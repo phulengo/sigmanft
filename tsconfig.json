@@ -20,7 +20,16 @@
 		// 	"*": ["node_modules/*"]
 		// }
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.*.js", "./scripts", "./test", "./typechain"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.*.js",
+		"types/**/*.d.ts",
+		"./scripts",
+		"./test",
+		"./typechain"
+	],
 	"exclude": ["node_modules"],
 	"files": ["./hardhat.config.ts"]
 	// For facing import module error

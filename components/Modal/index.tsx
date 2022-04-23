@@ -9,13 +9,14 @@ export interface ModalProps {
 	children?: React.ReactNode;
 	headerText?: string;
 	onCancel: () => void;
+	className?: string;
 }
-const Modal = ({ onCancel, headerText, children }: ModalProps) => {
+const Modal = ({ onCancel, headerText, children, className }: ModalProps) => {
 	return (
 		<>
-			<div onClick={onCancel} className="modal-bg" />
+			<div className={`${className as string} modal-bg`} onClick={onCancel} />
 			<Portal>
-				<div className="modal-container">
+				<div className={`${className as string} modal-container`}>
 					<div className="flex flex-col gap-6">
 						<Button icon className="modal__button--close" onClick={onCancel}>
 							<Icon name="X" size={24} color="black" />

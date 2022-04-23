@@ -202,6 +202,14 @@
 		@apply flex flex-row gap-4;
 	}
 
+	.connect-wallet-modal__container--mobile {
+		@apply lg:hidden xl:hidden;
+	}
+
+	.connect-wallet-modal__container--desktop {
+		@apply xs:hidden sm:hidden;
+	}
+
 	.nav-search-menu--desktop,
 	.nav-search-menu--desktop .search-bar {
 		@apply hidden;
@@ -247,8 +255,8 @@
 	}
 
 	.social-icons {
-		@apply flex flex-row xs:justify-between xs:w-full sm:justify-between sm:w-full;
-		@apply md:justify-center md:gap-8;
+		@apply flex flex-row xs:justify-between xs:w-full;
+		@apply md:justify-center gap-8;
 	}
 
 	.social-icons svg {
@@ -296,7 +304,7 @@
 		/* Center fixed el */
 		@apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
 
-		@apply xs:w-[calc(100%-48px)] sm:w-[calc(85%-48px)] md:w-[calc(65%-48px)] lg:w-[calc(50%-48px)]
+		@apply xs:w-[calc(100%-48px)] sm:w-[calc(90%-48px)] md:w-[calc(65%-48px)] lg:w-[calc(50%-48px)]
 		xl:w-[calc(35%-48px)];
 	}
 
@@ -312,11 +320,12 @@
 		@apply min-h-[32px];
 
 		@apply border-b border-platinum;
+
+		@apply xs:mt-14 sm:mt-14;
 	}
 
 	.modal-header h1 {
 		@apply text-center pb-4 text-heading-4;
-		@apply xs:text-left;
 	}
 
 	.modal-content {
@@ -359,6 +368,28 @@
 
 	.wallet-style--walletconnect {
 		background: radial-gradient(100% 2956.64% at 100% 100%, #007cff 0%, #9a1bff 100%);
+	}
+
+	.connect-wallet-modal {
+		@apply flex flex-col gap-6;
+		@apply xs:px-0 sm:px-[5%] px-[10%];
+	}
+
+	.sign-message-form {
+		@apply mt-4 px-12;
+		@apply flex flex-col gap-6;
+	}
+
+	.sign-message-form h1 {
+		@apply text-heading-4 text-center;
+	}
+
+	.sign-message-form p {
+		@apply text-center;
+	}
+
+	.sign-message-form button {
+		@apply text-subtitle;
 	}
 
 	.text-link {

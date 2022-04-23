@@ -1,18 +1,26 @@
-import { useState } from "react";
-import { useAccount, useConnect } from "wagmi";
+import React, { useState } from "react";
+import { Connector, useAccount } from "wagmi";
 import { Button } from "components/Button";
 import { ConnectWalletButton } from "components/ConnectWalletButton";
 import { Icon } from "components/Icon";
 import Logo from "components/Logo";
+import Modal from "components/Modal";
 import { SearchBar } from "components/SearchBar";
+import { SignMessage } from "components/SignMessage";
 
 const Header = () => {
 	const [openNavigationBar, setOpenNavigationBar] = useState(false);
-
-	const [{ data: connectData, error: connectError }, connect] = useConnect();
 	const [{ data: accountData }, disconnect] = useAccount({
 		fetchEns: true,
 	});
+
+	const [showSignMessageModal, setShowSignMessageModal] = useState(false);
+	const [signMessageOptions, setSignMessageOptions] = useState({ res: {}, connector: {} });
+
+	const handleConnectWalletState = (state: boolean, options?: { res: object; connector: object }) => {
+		setShowSignMessageModal(state);
+		options && setSignMessageOptions({ res: options.res, connector: options.connector });
+	};
 
 	return (
 		<header>
@@ -20,6 +28,14 @@ const Header = () => {
 				<Logo width="48" height="48" />
 				<div className="nav-search-menu--mobile">
 					<div className="flex flex-row gap-4">
+						{accountData && (
+							<div>
+								<div>
+									{accountData.ens?.name ? `${accountData.ens?.name} (${accountData.address})` : accountData.address}
+								</div>
+								<button onClick={disconnect}>Disconnect</button>
+							</div>
+						)}
 						<Icon name="Search" hasPadding size={"32"} color="black" />
 						<Button
 							icon
@@ -41,7 +57,17 @@ const Header = () => {
 								<h1 className="nav-bar__link">Explore</h1>
 							</div>
 							<div className="flex flex-col gap-6 items-center">
-								<ConnectWalletButton className="xs:self-stretch sm:self-stretch md:self-stretch" />{" "}
+								{accountData ? (
+									<Button className="btn-primary xs:self-stretch sm:self-stretch md:self-stretch">
+										Create Artwork
+									</Button>
+								) : (
+									<ConnectWalletButton
+										screenSize="mobile"
+										className="xs:self-stretch sm:self-stretch md:self-stretch"
+										handleConnectWalletState={handleConnectWalletState}
+									/>
+								)}
 								<div className="social-icons">
 									<Icon name="Facebook" size={32} color="black" />
 									<Icon name="Twitter" size={32} color="black" />
@@ -62,7 +88,6 @@ const Header = () => {
 					<div className="nav-search-menu__action">
 						<div className="nav-bar__link">Explore</div>
 						<div className="nav-bar__link">About</div>
-
 						{accountData ? (
 							<div>
 								<div>
@@ -71,11 +96,25 @@ const Header = () => {
 								<button onClick={disconnect}>Disconnect</button>
 							</div>
 						) : (
-							<ConnectWalletButton />
+							<ConnectWalletButton screenSize="desktop" handleConnectWalletState={handleConnectWalletState} />
 						)}
 					</div>
 				</div>
 			</nav>
+			{showSignMessageModal && (
+				<Modal
+					onCancel={() => {
+						setShowSignMessageModal(false);
+						disconnect();
+					}}
+				>
+					<SignMessage
+						setShowSignMessageModal={setShowSignMessageModal}
+						res={signMessageOptions?.res}
+						connector={signMessageOptions?.connector as Connector}
+					/>
+				</Modal>
+			)}
 		</header>
 	);
 };

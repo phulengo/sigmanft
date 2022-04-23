@@ -1,21 +1,40 @@
 import { useState } from "react";
-import { useConnect } from "wagmi";
+import { Connector, ConnectorData, useAccount, useConnect } from "wagmi";
 import { Button } from "components/Button";
 import { IconWallet } from "components/Icon";
 import Modal from "components/Modal";
 
 type ConnectWalletButtonProps = {
 	className?: string;
+	handleConnectWalletState?: (
+		state: boolean,
+		options?: {
+			res: {
+				data?: ConnectorData<any> | undefined;
+				error?: Error | undefined;
+			};
+			connector: object;
+		}
+	) => void;
+	screenSize?: string;
 };
 
-export const ConnectWalletButton = ({ className }: ConnectWalletButtonProps) => {
+export const ConnectWalletButton = ({ className, handleConnectWalletState, screenSize }: ConnectWalletButtonProps) => {
 	setTimeout(() => {
 		if (typeof document !== "undefined") {
+			// Styling connector buttons
 			const metamaskButtonEl = document.getElementsByClassName("wallet-style--metamask")[0];
 			const walletConnectButtonEl = document.getElementsByClassName("wallet-style--walletconnect")[0];
 
 			metamaskButtonEl && metamaskButtonEl.classList.add("wallet-style--metamask");
 			walletConnectButtonEl && walletConnectButtonEl.classList.add("wallet-style--walletconnect");
+
+			// Hide modal of different size
+			const desktopConnectWalletModal = document.getElementsByClassName("connect-wallet-modal__container--desktop")[0];
+			const mobileConnectWalletModal = document.getElementsByClassName("connect-wallet-modal__container--mobile")[0];
+
+			desktopConnectWalletModal && desktopConnectWalletModal.classList.add("connect-wallet-modal__container--desktop");
+			mobileConnectWalletModal && mobileConnectWalletModal.classList.add("onnect-wallet-modal__container--mobile");
 		}
 	}, 1);
 
@@ -28,6 +47,17 @@ export const ConnectWalletButton = ({ className }: ConnectWalletButtonProps) => 
 	};
 
 	const [{ data, error }, connect] = useConnect();
+	const [, disconnect] = useAccount();
+
+	const handleSignIn = async (connector: Connector) => {
+		try {
+			const res = await connect(connector);
+			if (!res.data) throw res.error ?? new Error("Something went wrong");
+			handleConnectWalletState && handleConnectWalletState(true, { res: res, connector: connector });
+		} catch (error) {
+			throw error;
+		}
+	};
 
 	return (
 		<>
@@ -35,8 +65,12 @@ export const ConnectWalletButton = ({ className }: ConnectWalletButtonProps) => 
 				Connect Wallet
 			</Button>
 			{showConnectWalletModal && (
-				<Modal onCancel={handleCloseConnectWalletModal} headerText="Connect Wallet">
-					<div className="flex flex-col gap-6">
+				<Modal
+					className={`connect-wallet-modal__container--${screenSize as string}`}
+					onCancel={handleCloseConnectWalletModal}
+					headerText="Connect Wallet"
+				>
+					<div className="connect-wallet-modal">
 						<p className="text-center">
 							By connecting your wallet, you agree to our <span className="text-link">Terms of Service</span> and our{" "}
 							<span className="text-link">Privacy Policy</span>.
@@ -50,7 +84,7 @@ export const ConnectWalletButton = ({ className }: ConnectWalletButtonProps) => 
 											icon
 											disabled={!connector.ready}
 											key={connector.id}
-											onClick={() => connect(connector)}
+											onClick={() => handleSignIn(connector)}
 										>
 											<IconWallet name={connector.name.toLowerCase()} size="32" />
 											{connector.name}
@@ -58,7 +92,6 @@ export const ConnectWalletButton = ({ className }: ConnectWalletButtonProps) => 
 										</Button>
 									)
 							)}
-							{error && <div>{error?.message ?? "Failed to connect"}</div>}
 
 							{/* {error && <div>{error?.message ?? "Failed to connect"}</div>} */}
 						</div>
