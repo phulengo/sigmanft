@@ -1,5 +1,5 @@
 /**
- * contracts/NFT.sol
+ * contracts/SigmaNFTMarketplace.sol
  * SPDX-License-Identifier: MIT
  */
 
@@ -8,6 +8,10 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+import "contracts/SigmaNFT.sol";
+
+import "hardhat/console.sol";
 
 contract SigmaNFTMarketplace is ReentrancyGuard {
 	// About fees - state variables
@@ -18,7 +22,7 @@ contract SigmaNFTMarketplace is ReentrancyGuard {
 	// Object in JS
 	struct Item {
 		uint256 itemId;
-		IERC721 nft;
+		SigmaNFT nft;
 		uint256 tokenId;
 		uint256 price;
 		address payable seller;
@@ -36,6 +40,8 @@ contract SigmaNFTMarketplace is ReentrancyGuard {
 		address indexed buyer
 	);
 
+	event Burn(uint256 itemId, address indexed nft, uint256 tokenId);
+
 	// itemId -> Item
 	mapping(uint256 => Item) public items;
 
@@ -48,7 +54,7 @@ contract SigmaNFTMarketplace is ReentrancyGuard {
 	 * https://docs.openzeppelin.com/contracts/4.x/api/security#ReentrancyGuard
 	 */
 	function makeItem(
-		IERC721 _nft,
+		SigmaNFT _nft,
 		uint256 _tokenId,
 		uint256 _price
 	) external nonReentrant {
@@ -85,6 +91,31 @@ contract SigmaNFTMarketplace is ReentrancyGuard {
 		item.nft.transferFrom(address(this), msg.sender, item.tokenId); // Transfer NFT to buyer
 
 		emit Bought(_itemId, address(item.nft), item.tokenId, item.price, item.seller, msg.sender);
+	}
+
+	function removeItem(uint256 _itemId) external nonReentrant {
+		// Reading directly form storage mapping (line 31)
+		Item storage item = items[_itemId];
+		require(_itemId > 0 && _itemId <= itemCount, "Item doesn't exist");
+
+		// Check owner
+		require((item.nft.ownerOf(item.tokenId) == msg.sender), "ERC721: burn caller is not owner nor approved");
+
+		itemCount--;
+		item.nft.burn(msg.sender, item.tokenId);
+
+		delete items[_itemId];
+	}
+
+	function editItem(uint256 _itemId, string memory _tokenURI) external nonReentrant {
+		// Reading directly form storage mapping (line 31)
+		Item storage item = items[_itemId];
+		require(_itemId > 0 && _itemId <= itemCount, "Item doesn't exist");
+
+		// Check owner
+		require(item.seller == msg.sender, "ERC721: update caller is not owner nor approved");
+
+		item.nft.update(item.tokenId, _tokenURI);
 	}
 
 	/**

@@ -2,357 +2,358 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
-  BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
-  ContractTransaction,
-  Overrides,
-  PayableOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+	BaseContract,
+	BigNumber,
+	BigNumberish,
+	BytesLike,
+	CallOverrides,
+	ContractTransaction,
+	Overrides,
+	PayableOverrides,
+	PopulatedTransaction,
+	Signer,
+	utils,
 } from "ethers";
-import type {
-  FunctionFragment,
-  Result,
-  EventFragment,
-} from "@ethersproject/abi";
+import type { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
-import type {
-  TypedEventFilter,
-  TypedEvent,
-  TypedListener,
-  OnEvent,
-} from "../common";
+import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "../common";
 
 export interface SigmaNFTMarketplaceInterface extends utils.Interface {
-  functions: {
-    "feeAccount()": FunctionFragment;
-    "feePercent()": FunctionFragment;
-    "getTotalPrice(uint256)": FunctionFragment;
-    "itemCount()": FunctionFragment;
-    "items(uint256)": FunctionFragment;
-    "makeItem(address,uint256,uint256)": FunctionFragment;
-    "purchaseItem(uint256)": FunctionFragment;
-  };
+	functions: {
+		"editItem(uint256,string)": FunctionFragment;
+		"feeAccount()": FunctionFragment;
+		"feePercent()": FunctionFragment;
+		"getTotalPrice(uint256)": FunctionFragment;
+		"itemCount()": FunctionFragment;
+		"items(uint256)": FunctionFragment;
+		"makeItem(address,uint256,uint256)": FunctionFragment;
+		"purchaseItem(uint256)": FunctionFragment;
+		"removeItem(uint256)": FunctionFragment;
+	};
 
-  getFunction(
-    nameOrSignatureOrTopic:
-      | "feeAccount"
-      | "feePercent"
-      | "getTotalPrice"
-      | "itemCount"
-      | "items"
-      | "makeItem"
-      | "purchaseItem"
-  ): FunctionFragment;
+	getFunction(
+		nameOrSignatureOrTopic:
+			| "editItem"
+			| "feeAccount"
+			| "feePercent"
+			| "getTotalPrice"
+			| "itemCount"
+			| "items"
+			| "makeItem"
+			| "purchaseItem"
+			| "removeItem"
+	): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "feeAccount",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "feePercent",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getTotalPrice",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "itemCount", values?: undefined): string;
-  encodeFunctionData(functionFragment: "items", values: [BigNumberish]): string;
-  encodeFunctionData(
-    functionFragment: "makeItem",
-    values: [string, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "purchaseItem",
-    values: [BigNumberish]
-  ): string;
+	encodeFunctionData(functionFragment: "editItem", values: [BigNumberish, string]): string;
+	encodeFunctionData(functionFragment: "feeAccount", values?: undefined): string;
+	encodeFunctionData(functionFragment: "feePercent", values?: undefined): string;
+	encodeFunctionData(functionFragment: "getTotalPrice", values: [BigNumberish]): string;
+	encodeFunctionData(functionFragment: "itemCount", values?: undefined): string;
+	encodeFunctionData(functionFragment: "items", values: [BigNumberish]): string;
+	encodeFunctionData(functionFragment: "makeItem", values: [string, BigNumberish, BigNumberish]): string;
+	encodeFunctionData(functionFragment: "purchaseItem", values: [BigNumberish]): string;
+	encodeFunctionData(functionFragment: "removeItem", values: [BigNumberish]): string;
 
-  decodeFunctionResult(functionFragment: "feeAccount", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "feePercent", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getTotalPrice",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "itemCount", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "items", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "makeItem", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "purchaseItem",
-    data: BytesLike
-  ): Result;
+	decodeFunctionResult(functionFragment: "editItem", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "feeAccount", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "feePercent", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "getTotalPrice", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "itemCount", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "items", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "makeItem", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "purchaseItem", data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: "removeItem", data: BytesLike): Result;
 
-  events: {
-    "Bought(uint256,address,uint256,uint256,address,address)": EventFragment;
-    "Offered(uint256,address,uint256,uint256,address)": EventFragment;
-  };
+	events: {
+		"Bought(uint256,address,uint256,uint256,address,address)": EventFragment;
+		"Burn(uint256,address,uint256)": EventFragment;
+		"Offered(uint256,address,uint256,uint256,address)": EventFragment;
+	};
 
-  getEvent(nameOrSignatureOrTopic: "Bought"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Offered"): EventFragment;
+	getEvent(nameOrSignatureOrTopic: "Bought"): EventFragment;
+	getEvent(nameOrSignatureOrTopic: "Burn"): EventFragment;
+	getEvent(nameOrSignatureOrTopic: "Offered"): EventFragment;
 }
 
 export interface BoughtEventObject {
-  itemId: BigNumber;
-  nft: string;
-  tokenId: BigNumber;
-  price: BigNumber;
-  seller: string;
-  buyer: string;
+	itemId: BigNumber;
+	nft: string;
+	tokenId: BigNumber;
+	price: BigNumber;
+	seller: string;
+	buyer: string;
 }
-export type BoughtEvent = TypedEvent<
-  [BigNumber, string, BigNumber, BigNumber, string, string],
-  BoughtEventObject
->;
+export type BoughtEvent = TypedEvent<[BigNumber, string, BigNumber, BigNumber, string, string], BoughtEventObject>;
 
 export type BoughtEventFilter = TypedEventFilter<BoughtEvent>;
 
-export interface OfferedEventObject {
-  itemId: BigNumber;
-  nft: string;
-  tokenId: BigNumber;
-  price: BigNumber;
-  seller: string;
+export interface BurnEventObject {
+	itemId: BigNumber;
+	nft: string;
+	tokenId: BigNumber;
 }
-export type OfferedEvent = TypedEvent<
-  [BigNumber, string, BigNumber, BigNumber, string],
-  OfferedEventObject
->;
+export type BurnEvent = TypedEvent<[BigNumber, string, BigNumber], BurnEventObject>;
+
+export type BurnEventFilter = TypedEventFilter<BurnEvent>;
+
+export interface OfferedEventObject {
+	itemId: BigNumber;
+	nft: string;
+	tokenId: BigNumber;
+	price: BigNumber;
+	seller: string;
+}
+export type OfferedEvent = TypedEvent<[BigNumber, string, BigNumber, BigNumber, string], OfferedEventObject>;
 
 export type OfferedEventFilter = TypedEventFilter<OfferedEvent>;
 
 export interface SigmaNFTMarketplace extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+	connect(signerOrProvider: Signer | Provider | string): this;
+	attach(addressOrName: string): this;
+	deployed(): Promise<this>;
 
-  interface: SigmaNFTMarketplaceInterface;
+	interface: SigmaNFTMarketplaceInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
-    fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+	queryFilter<TEvent extends TypedEvent>(
+		event: TypedEventFilter<TEvent>,
+		fromBlockOrBlockhash?: string | number | undefined,
+		toBlock?: string | number | undefined
+	): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+	listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
+	listeners(eventName?: string): Array<Listener>;
+	removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
+	removeAllListeners(eventName?: string): this;
+	off: OnEvent<this>;
+	on: OnEvent<this>;
+	once: OnEvent<this>;
+	removeListener: OnEvent<this>;
 
-  functions: {
-    feeAccount(overrides?: CallOverrides): Promise<[string]>;
+	functions: {
+		editItem(
+			_itemId: BigNumberish,
+			_tokenURI: string,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<ContractTransaction>;
 
-    feePercent(overrides?: CallOverrides): Promise<[BigNumber]>;
+		feeAccount(overrides?: CallOverrides): Promise<[string]>;
 
-    getTotalPrice(
-      _itemId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+		feePercent(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    itemCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+		getTotalPrice(_itemId: BigNumberish, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    items(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, string, BigNumber, BigNumber, string, boolean] & {
-        itemId: BigNumber;
-        nft: string;
-        tokenId: BigNumber;
-        price: BigNumber;
-        seller: string;
-        sold: boolean;
-      }
-    >;
+		itemCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    makeItem(
-      _nft: string,
-      _tokenId: BigNumberish,
-      _price: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+		items(
+			arg0: BigNumberish,
+			overrides?: CallOverrides
+		): Promise<
+			[BigNumber, string, BigNumber, BigNumber, string, boolean] & {
+				itemId: BigNumber;
+				nft: string;
+				tokenId: BigNumber;
+				price: BigNumber;
+				seller: string;
+				sold: boolean;
+			}
+		>;
 
-    purchaseItem(
-      _itemId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-  };
+		makeItem(
+			_nft: string,
+			_tokenId: BigNumberish,
+			_price: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<ContractTransaction>;
 
-  feeAccount(overrides?: CallOverrides): Promise<string>;
+		purchaseItem(
+			_itemId: BigNumberish,
+			overrides?: PayableOverrides & { from?: string | Promise<string> }
+		): Promise<ContractTransaction>;
 
-  feePercent(overrides?: CallOverrides): Promise<BigNumber>;
+		removeItem(
+			_itemId: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<ContractTransaction>;
+	};
 
-  getTotalPrice(
-    _itemId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+	editItem(
+		_itemId: BigNumberish,
+		_tokenURI: string,
+		overrides?: Overrides & { from?: string | Promise<string> }
+	): Promise<ContractTransaction>;
 
-  itemCount(overrides?: CallOverrides): Promise<BigNumber>;
+	feeAccount(overrides?: CallOverrides): Promise<string>;
 
-  items(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, string, BigNumber, BigNumber, string, boolean] & {
-      itemId: BigNumber;
-      nft: string;
-      tokenId: BigNumber;
-      price: BigNumber;
-      seller: string;
-      sold: boolean;
-    }
-  >;
+	feePercent(overrides?: CallOverrides): Promise<BigNumber>;
 
-  makeItem(
-    _nft: string,
-    _tokenId: BigNumberish,
-    _price: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+	getTotalPrice(_itemId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-  purchaseItem(
-    _itemId: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+	itemCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-  callStatic: {
-    feeAccount(overrides?: CallOverrides): Promise<string>;
+	items(
+		arg0: BigNumberish,
+		overrides?: CallOverrides
+	): Promise<
+		[BigNumber, string, BigNumber, BigNumber, string, boolean] & {
+			itemId: BigNumber;
+			nft: string;
+			tokenId: BigNumber;
+			price: BigNumber;
+			seller: string;
+			sold: boolean;
+		}
+	>;
 
-    feePercent(overrides?: CallOverrides): Promise<BigNumber>;
+	makeItem(
+		_nft: string,
+		_tokenId: BigNumberish,
+		_price: BigNumberish,
+		overrides?: Overrides & { from?: string | Promise<string> }
+	): Promise<ContractTransaction>;
 
-    getTotalPrice(
-      _itemId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+	purchaseItem(
+		_itemId: BigNumberish,
+		overrides?: PayableOverrides & { from?: string | Promise<string> }
+	): Promise<ContractTransaction>;
 
-    itemCount(overrides?: CallOverrides): Promise<BigNumber>;
+	removeItem(
+		_itemId: BigNumberish,
+		overrides?: Overrides & { from?: string | Promise<string> }
+	): Promise<ContractTransaction>;
 
-    items(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, string, BigNumber, BigNumber, string, boolean] & {
-        itemId: BigNumber;
-        nft: string;
-        tokenId: BigNumber;
-        price: BigNumber;
-        seller: string;
-        sold: boolean;
-      }
-    >;
+	callStatic: {
+		editItem(_itemId: BigNumberish, _tokenURI: string, overrides?: CallOverrides): Promise<void>;
 
-    makeItem(
-      _nft: string,
-      _tokenId: BigNumberish,
-      _price: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
+		feeAccount(overrides?: CallOverrides): Promise<string>;
 
-    purchaseItem(
-      _itemId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-  };
+		feePercent(overrides?: CallOverrides): Promise<BigNumber>;
 
-  filters: {
-    "Bought(uint256,address,uint256,uint256,address,address)"(
-      itemId?: null,
-      nft?: string | null,
-      tokenId?: null,
-      price?: null,
-      seller?: string | null,
-      buyer?: string | null
-    ): BoughtEventFilter;
-    Bought(
-      itemId?: null,
-      nft?: string | null,
-      tokenId?: null,
-      price?: null,
-      seller?: string | null,
-      buyer?: string | null
-    ): BoughtEventFilter;
+		getTotalPrice(_itemId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-    "Offered(uint256,address,uint256,uint256,address)"(
-      itemId?: null,
-      nft?: string | null,
-      tokenId?: null,
-      price?: null,
-      seller?: string | null
-    ): OfferedEventFilter;
-    Offered(
-      itemId?: null,
-      nft?: string | null,
-      tokenId?: null,
-      price?: null,
-      seller?: string | null
-    ): OfferedEventFilter;
-  };
+		itemCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-  estimateGas: {
-    feeAccount(overrides?: CallOverrides): Promise<BigNumber>;
+		items(
+			arg0: BigNumberish,
+			overrides?: CallOverrides
+		): Promise<
+			[BigNumber, string, BigNumber, BigNumber, string, boolean] & {
+				itemId: BigNumber;
+				nft: string;
+				tokenId: BigNumber;
+				price: BigNumber;
+				seller: string;
+				sold: boolean;
+			}
+		>;
 
-    feePercent(overrides?: CallOverrides): Promise<BigNumber>;
+		makeItem(_nft: string, _tokenId: BigNumberish, _price: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
-    getTotalPrice(
-      _itemId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+		purchaseItem(_itemId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
-    itemCount(overrides?: CallOverrides): Promise<BigNumber>;
+		removeItem(_itemId: BigNumberish, overrides?: CallOverrides): Promise<void>;
+	};
 
-    items(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+	filters: {
+		"Bought(uint256,address,uint256,uint256,address,address)"(
+			itemId?: null,
+			nft?: string | null,
+			tokenId?: null,
+			price?: null,
+			seller?: string | null,
+			buyer?: string | null
+		): BoughtEventFilter;
+		Bought(
+			itemId?: null,
+			nft?: string | null,
+			tokenId?: null,
+			price?: null,
+			seller?: string | null,
+			buyer?: string | null
+		): BoughtEventFilter;
 
-    makeItem(
-      _nft: string,
-      _tokenId: BigNumberish,
-      _price: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+		"Burn(uint256,address,uint256)"(itemId?: null, nft?: string | null, tokenId?: null): BurnEventFilter;
+		Burn(itemId?: null, nft?: string | null, tokenId?: null): BurnEventFilter;
 
-    purchaseItem(
-      _itemId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-  };
+		"Offered(uint256,address,uint256,uint256,address)"(
+			itemId?: null,
+			nft?: string | null,
+			tokenId?: null,
+			price?: null,
+			seller?: string | null
+		): OfferedEventFilter;
+		Offered(
+			itemId?: null,
+			nft?: string | null,
+			tokenId?: null,
+			price?: null,
+			seller?: string | null
+		): OfferedEventFilter;
+	};
 
-  populateTransaction: {
-    feeAccount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+	estimateGas: {
+		editItem(
+			_itemId: BigNumberish,
+			_tokenURI: string,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<BigNumber>;
 
-    feePercent(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+		feeAccount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getTotalPrice(
-      _itemId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+		feePercent(overrides?: CallOverrides): Promise<BigNumber>;
 
-    itemCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+		getTotalPrice(_itemId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-    items(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+		itemCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    makeItem(
-      _nft: string,
-      _tokenId: BigNumberish,
-      _price: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+		items(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-    purchaseItem(
-      _itemId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-  };
+		makeItem(
+			_nft: string,
+			_tokenId: BigNumberish,
+			_price: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<BigNumber>;
+
+		purchaseItem(
+			_itemId: BigNumberish,
+			overrides?: PayableOverrides & { from?: string | Promise<string> }
+		): Promise<BigNumber>;
+
+		removeItem(_itemId: BigNumberish, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
+	};
+
+	populateTransaction: {
+		editItem(
+			_itemId: BigNumberish,
+			_tokenURI: string,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<PopulatedTransaction>;
+
+		feeAccount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+		feePercent(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+		getTotalPrice(_itemId: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+		itemCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+		items(arg0: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+		makeItem(
+			_nft: string,
+			_tokenId: BigNumberish,
+			_price: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<PopulatedTransaction>;
+
+		purchaseItem(
+			_itemId: BigNumberish,
+			overrides?: PayableOverrides & { from?: string | Promise<string> }
+		): Promise<PopulatedTransaction>;
+
+		removeItem(
+			_itemId: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> }
+		): Promise<PopulatedTransaction>;
+	};
 }

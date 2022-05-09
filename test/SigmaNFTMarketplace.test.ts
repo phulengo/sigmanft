@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
-import { BigNumber, Contract } from "ethers";
+import { BaseContract, BigNumber, Contract } from "ethers";
 import { ethers } from "hardhat";
 
 /**
@@ -55,11 +55,6 @@ describe("SigmaNFTMarketplace", () => {
 			expect(await nft.tokenCount()).to.equal(1);
 			expect(await nft.balanceOf(address1.address)).to.equal(1);
 			expect(await nft.tokenURI(1)).to.equal(URI);
-
-			await nft.connect(address2).mint(URI); // address2 mints an NFT
-			expect(await nft.tokenCount()).to.equal(2);
-			expect(await nft.balanceOf(address2.address)).to.equal(1);
-			expect(await nft.tokenURI(2)).to.equal(URI);
 		});
 	});
 
@@ -163,6 +158,64 @@ describe("SigmaNFTMarketplace", () => {
 			// not enough ethers to buy
 			await expect(marketplace.connect(address2).purchaseItem(1, { value: toWei(price) })).to.be.revertedWith(
 				"Not enough ether to paid for item price and market fee"
+			);
+		});
+	});
+
+	describe("Burning NFT", () => {
+		beforeEach(async () => {
+			// address1 mint an NFT
+			await nft.connect(address1).mint(URI);
+
+			// address1 approves marketplace to spend NFT
+			await nft.connect(address1).setApprovalForAll(marketplace.address, true);
+
+			// address1 make their NFT a marketplace item
+			await marketplace.connect(address1).makeItem(nft.address, 1, toWei(2));
+
+			// address 2 buy address 1's item
+			let totalPriceInWei = await marketplace.getTotalPrice(1);
+			await marketplace.connect(address2).purchaseItem(1, { value: totalPriceInWei });
+		});
+		it("Should burned the specific NFT", async () => {
+			// Remove/burn NFT
+			await marketplace.connect(address2).removeItem(1);
+
+			expect(await marketplace.itemCount()).to.equal(0);
+		});
+
+		it("Should fail when non-owner of NFT trying to burn", async () => {
+			// Remove/burn NFT
+			await expect(marketplace.connect(address1).removeItem(1)).to.be.revertedWith(
+				"ERC721: burn caller is not owner nor approved"
+			);
+
+			expect(await marketplace.itemCount()).to.equal(1);
+		});
+	});
+
+	describe("Updating NFT", () => {
+		let oldData: BaseContract;
+		beforeEach(async () => {
+			// address1 mint an NFT
+			oldData = await nft.connect(address1).mint(URI);
+
+			// address1 approves marketplace to spend NFT
+			await nft.connect(address1).setApprovalForAll(marketplace.address, true);
+
+			// address1 make their NFT a marketplace item
+			await marketplace.connect(address1).makeItem(nft.address, 1, toWei(2));
+		});
+		let newURI = "New URI Updated";
+		it("Should update the specific NFT", async () => {
+			// Update NFT
+			await expect(await marketplace.connect(address1).editItem(1, newURI)).to.not.equal(oldData);
+			await expect(await marketplace.itemCount()).to.equal(1);
+		});
+
+		it("Should fail when non-owner trying to update the specific NFT", async () => {
+			await expect(marketplace.connect(address2).editItem(1, newURI)).to.be.revertedWith(
+				"ERC721: update caller is not owner nor approved"
 			);
 		});
 	});

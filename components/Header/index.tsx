@@ -1,42 +1,170 @@
-import React, { useState } from "react";
-import { Connector, useAccount } from "wagmi";
+import Link from "next/link";
+import React, { useContext, useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
+import { Connector, useAccount, useConnect } from "wagmi";
+import { Avatar } from "components/Avatar";
 import { Button } from "components/Button";
 import { ConnectWalletButton } from "components/ConnectWalletButton";
 import { Icon } from "components/Icon";
 import Logo from "components/Logo";
+import { MoreMenu } from "components/Menu";
 import Modal from "components/Modal";
 import { SearchBar } from "components/SearchBar";
 import { SignMessage } from "components/SignMessage";
+import { UserContext } from "components/UserProvider";
+import { formatAvatarStyle } from "utils/formatAvatarStyle";
+import { getWithExpiry } from "utils/localStorage";
 
 const Header = () => {
 	const [openNavigationBar, setOpenNavigationBar] = useState(false);
+	const [showMoreMenu, setShowMoreMenu] = useState(false);
+
 	const [{ data: accountData }, disconnect] = useAccount({
 		fetchEns: true,
 	});
+	const [{ data: connectorData }] = useConnect();
 
 	const [showSignMessageModal, setShowSignMessageModal] = useState(false);
 	const [signMessageOptions, setSignMessageOptions] = useState({ res: {}, connector: {} });
+	const [showSearchBarMobile, setShowSearchBarMobile] = useState(false);
 
 	const handleConnectWalletState = (state: boolean, options?: { res: object; connector: object }) => {
 		setShowSignMessageModal(state);
 		options && setSignMessageOptions({ res: options.res, connector: options.connector });
 	};
 
+	const handleDisconnect = async () => {
+		disconnect();
+		await fetch("/api/logout");
+		localStorage.removeItem("session_signature");
+	};
+
+	const handleClickMoreMenu = () => {
+		setShowMoreMenu(!showMoreMenu);
+	};
+
+	const handleCloseMoreMenu = () => {
+		setShowMoreMenu(false);
+	};
+
+	const currentUser = useContext(UserContext);
+
+	useEffect(() => {
+		const verifiedSignature = getWithExpiry("session_signature");
+		!verifiedSignature && accountData && setShowSignMessageModal(true);
+
+		if (typeof document !== "undefined") {
+			if (openNavigationBar) {
+				document.getElementsByTagName("html")[0].classList.add("h-full", "overflow-y-hidden", "overflow-x-hidden");
+				document
+					.getElementsByTagName("body")[0]
+					.classList.add("h-full", "overflow-y-hidden", "overflow-x-hidden", "relative");
+				document.getElementsByClassName("profile-cover")[0] &&
+					document.getElementsByClassName("profile-cover")[0].classList.add("bg-white--important");
+			} else {
+				document.getElementsByTagName("html")[0].classList.remove("h-full", "overflow-y-hidden", "overflow-x-hidden");
+				document
+					.getElementsByTagName("body")[0]
+					.classList.remove("h-full", "overflow-y-hidden", "overflow-x-hidden", "relative");
+				document.getElementsByClassName("profile-cover")[0] &&
+					document.getElementsByClassName("profile-cover")[0].classList.remove("bg-white--important");
+			}
+		}
+	}),
+		[accountData];
+
 	return (
 		<header>
 			<nav className={`navigation-bar`}>
-				<Logo width="48" height="48" />
+				<Link href={"/"} passHref>
+					<a className="w-auto">
+						<Logo
+							onClick={() => {
+								setOpenNavigationBar(false);
+							}}
+							width="48"
+							height="48"
+						/>
+					</a>
+				</Link>
 				<div className="nav-search-menu--mobile">
-					<div className="flex flex-row gap-4">
+					<div className="flex flex-row gap-4 items-center">
 						{accountData && (
-							<div>
-								<div>
-									{accountData.ens?.name ? `${accountData.ens?.name} (${accountData.address})` : accountData.address}
+							<>
+								<div
+									role={"button"}
+									tabIndex={0}
+									onClick={handleClickMoreMenu}
+									onKeyDown={() => true}
+									className="btn-avatar"
+								>
+									{currentUser ? (
+										currentUser.avatar_url?.includes("//") ? (
+											<Avatar size="64" src={currentUser.avatar_url} />
+										) : (
+											<Avatar size="64" src={""} style={formatAvatarStyle(currentUser.avatar_url as string)} />
+										)
+									) : (
+										<ClipLoader
+											css={`
+												width: 58px;
+												height: 58px;
+											`}
+										/>
+									)}
+									{showMoreMenu && (
+										<MoreMenu onCancel={handleCloseMoreMenu}>
+											<div className="flex flex-col gap-2 flex-auto">
+												<Link
+													href={`/${currentUser.username ? currentUser.username : (currentUser.id as string)}`}
+													passHref
+												>
+													<a className="flex w-full">
+														<Button icon className="btn-menu btn-avatar--more">
+															<span className="flex items-center gap-4">
+																<Icon name="User" size="32" />
+																<span className="btn-menu__text">View My Profile</span>
+															</span>
+															<Icon name="ChevronRight" size="32" />
+														</Button>
+													</a>
+												</Link>
+												<Button icon className="btn-menu btn-avatar--more">
+													<span className="flex items-center gap-4">
+														<Icon name="List" size="32" />
+														<span className="btn-menu__text">Activity</span>
+													</span>
+													<Icon name="ChevronRight" size="32" />
+												</Button>
+												<Button onClick={handleDisconnect} icon className="btn-menu btn-avatar--more">
+													<span className="flex items-center gap-4">
+														<Icon name="LogOut" size="32" />
+														<span className="btn-menu__text">Disconnect</span>
+													</span>
+													<Icon name="ChevronRight" size="32" />
+												</Button>
+											</div>
+										</MoreMenu>
+									)}
 								</div>
-								<button onClick={disconnect}>Disconnect</button>
+							</>
+						)}
+						{/* Search mobile */}
+						{!showSearchBarMobile ? (
+							<Button onClick={() => setShowSearchBarMobile(true)} icon>
+								<Icon name="Search" hasPadding size={"32"} color="black" />
+							</Button>
+						) : (
+							<Button onClick={() => setShowSearchBarMobile(false)} icon>
+								<Icon name="X" hasPadding size={"32"} color="black" />
+							</Button>
+						)}
+
+						{showSearchBarMobile && (
+							<div className={`absolute search-bar__modal--mobile ${accountData ? "" : "right-[184px]"}`}>
+								<SearchBar />
 							</div>
 						)}
-						<Icon name="Search" hasPadding size={"32"} color="black" />
 						<Button
 							icon
 							onClick={() => {
@@ -54,13 +182,24 @@ const Header = () => {
 						<div className="flex flex-col justify-between h-full">
 							<div className="flex flex-col gap-4">
 								<h1 className="nav-bar__link">About</h1>
-								<h1 className="nav-bar__link">Explore</h1>
+								<Link href={`/explore`} passHref>
+									<a>
+										<h1 className="nav-bar__link">Explore</h1>
+									</a>
+								</Link>
 							</div>
 							<div className="flex flex-col gap-6 items-center">
 								{accountData ? (
-									<Button className="btn-primary xs:self-stretch sm:self-stretch md:self-stretch">
-										Create Artwork
-									</Button>
+									<Link href={"/create"} passHref>
+										<a>
+											<Button
+												onClick={() => setOpenNavigationBar(false)}
+												className="btn-primary text-heading-5  xs:self-stretch sm:self-stretch md:self-stretch"
+											>
+												Create Artwork
+											</Button>
+										</a>
+									</Link>
 								) : (
 									<ConnectWalletButton
 										screenSize="mobile"
@@ -86,15 +225,79 @@ const Header = () => {
 				<div className="nav-search-menu--desktop">
 					<SearchBar />
 					<div className="nav-search-menu__action">
-						<div className="nav-bar__link">Explore</div>
+						<Link href={`/explore`} passHref>
+							<a>
+								<div className="nav-bar__link">Explore</div>
+							</a>
+						</Link>
 						<div className="nav-bar__link">About</div>
+
 						{accountData ? (
-							<div>
-								<div>
-									{accountData.ens?.name ? `${accountData.ens?.name} (${accountData.address})` : accountData.address}
+							<>
+								<div
+									role={"button"}
+									tabIndex={0}
+									onClick={handleClickMoreMenu}
+									onKeyDown={() => true}
+									className="btn-avatar"
+								>
+									{currentUser ? (
+										currentUser.avatar_url?.includes("//") ? (
+											<Avatar size="64" src={currentUser.avatar_url} />
+										) : (
+											<Avatar size="64" src={""} style={formatAvatarStyle(currentUser.avatar_url as string)} />
+										)
+									) : (
+										<ClipLoader
+											css={`
+												width: 58px;
+												height: 58px;
+											`}
+										/>
+									)}
+									{showMoreMenu && (
+										<MoreMenu onCancel={handleCloseMoreMenu}>
+											<div className="flex flex-col gap-2 flex-auto">
+												<Link
+													href={`/${currentUser.username ? currentUser.username : (currentUser.id as string)}`}
+													passHref
+												>
+													<a>
+														<Button icon className="btn-menu btn-avatar--more">
+															<span className="flex items-center gap-4">
+																<Icon name="User" size="32" />
+																<span className="btn-menu__text">View My Profile</span>
+															</span>
+															<Icon name="ChevronRight" size="32" />
+														</Button>
+													</a>
+												</Link>
+												<Button icon className="btn-menu btn-avatar--more">
+													<span className="flex items-center gap-4">
+														<Icon name="List" size="32" />
+														<span className="btn-menu__text">Activity</span>
+													</span>
+													<Icon name="ChevronRight" size="32" />
+												</Button>
+												<Button onClick={handleDisconnect} icon className="btn-menu btn-avatar--more">
+													<span className="flex items-center gap-4">
+														<Icon name="LogOut" size="32" />
+														<span className="btn-menu__text">Disconnect</span>
+													</span>
+													<Icon name="ChevronRight" size="32" />
+												</Button>
+											</div>
+										</MoreMenu>
+									)}
 								</div>
-								<button onClick={disconnect}>Disconnect</button>
-							</div>
+								<Link href={"/create"} passHref>
+									<a>
+										<Button className="btn-primary text-heading-5 xs:self-stretch sm:self-stretch md:self-stretch">
+											Create Artwork
+										</Button>
+									</a>
+								</Link>
+							</>
 						) : (
 							<ConnectWalletButton screenSize="desktop" handleConnectWalletState={handleConnectWalletState} />
 						)}
@@ -105,13 +308,18 @@ const Header = () => {
 				<Modal
 					onCancel={() => {
 						setShowSignMessageModal(false);
-						disconnect();
+						void handleDisconnect();
 					}}
 				>
 					<SignMessage
 						setShowSignMessageModal={setShowSignMessageModal}
 						res={signMessageOptions?.res}
-						connector={signMessageOptions?.connector as Connector}
+						connector={
+							(signMessageOptions?.connector as Connector) &&
+							Object.keys(signMessageOptions?.connector as Connector).length !== 0
+								? (signMessageOptions?.connector as Connector)
+								: connectorData && (connectorData.connector as Connector)
+						}
 					/>
 				</Modal>
 			)}

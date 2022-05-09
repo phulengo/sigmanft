@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
+import { useUserData } from "lib/hooks";
 import { ironOptions } from "./nonce";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

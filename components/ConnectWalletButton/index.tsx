@@ -61,7 +61,7 @@ export const ConnectWalletButton = ({ className, handleConnectWalletState, scree
 
 	return (
 		<>
-			<Button onClick={handleConnectWallet} className={`${className as string} btn-primary`}>
+			<Button onClick={handleConnectWallet} className={`${className as string} btn-primary text-heading-5`}>
 				Connect Wallet
 			</Button>
 			{showConnectWalletModal && (

@@ -1,31 +1,31 @@
-import { Contract, ContractFactory } from 'ethers';
-import * as fs from 'fs';
-import { ethers, artifacts } from 'hardhat';
+import { Contract, ContractFactory } from "ethers";
+import * as fs from "fs";
+import { ethers, artifacts } from "hardhat";
 
 const main = async () => {
 	const [deployer] = await ethers.getSigners();
 
 	// Get the ContractFactories and Signers
-	console.log('Deploying contracts with the account:', deployer.address);
-	console.log('Account balance:', (await deployer.getBalance()).toString());
+	console.log("Deploying contracts with the account:", deployer.address);
+	console.log("Account balance:", (await deployer.getBalance()).toString());
 
 	// Deploy contracts
-	const SigmaNFT = (await ethers.getContractFactory('SigmaNFT')) as ContractFactory; // NFT
+	const SigmaNFT = await ethers.getContractFactory("SigmaNFT"); // NFT
 	const nft = await SigmaNFT.deploy();
 
-	const SigmaNFTMarketplace = await ethers.getContractFactory('SigmaNFTMarketplace'); // Marketplace
+	const SigmaNFTMarketplace = await ethers.getContractFactory("SigmaNFTMarketplace"); // Marketplace
 	const marketplace = await SigmaNFTMarketplace.deploy(1); // initialize 5 fee per sale
 
-	console.log('SigmaNFT contract address', nft.address);
-	console.log('SigmaNFT Marketplace contract address', marketplace.address);
+	console.log("SigmaNFT contract address", nft.address);
+	console.log("SigmaNFT Marketplace contract address", marketplace.address);
 
 	// For each contract, save copies of abi and address to the frontend.
-	saveFrontendFiles(SigmaNFT, 'SigmaNFT');
-	saveFrontendFiles(nft, 'SigmaNFT');
+	saveFrontendFiles(nft, "SigmaNFT");
+	saveFrontendFiles(marketplace, "SigmaNFTMarketplace");
 };
 
 const saveFrontendFiles = (contract: ContractFactory | Contract, name: string) => {
-	const contractsDir = __dirname + '/contractsData';
+	const contractsDir = __dirname + "/contractsData";
 
 	if (!fs.existsSync(contractsDir)) {
 		fs.mkdirSync(contractsDir);

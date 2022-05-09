@@ -58,3 +58,5 @@ typechain
 #Hardhat files
 cache
 artifacts
+
+sigmanft-rinkeby-subgraph

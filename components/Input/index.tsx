@@ -8,6 +8,8 @@ type InputProps = {
 	pattern?: string;
 	autocomplete?: string;
 	className?: string;
+	min?: number;
+	step?: number;
 };
 
 export const Input = ({
@@ -20,6 +22,8 @@ export const Input = ({
 	pattern,
 	autocomplete,
 	className,
+	min,
+	step,
 }: InputProps) => {
 	return (
 		<input
@@ -35,6 +39,8 @@ export const Input = ({
 			placeholder={placeholder}
 			type={type}
 			pattern={pattern}
+			min={min}
+			step={step}
 		/>
 	);
 };
