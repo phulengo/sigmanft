@@ -1369,4 +1369,9 @@
 		background-image: url("/chevron-down.svg");
 		@apply bg-no-repeat bg-right pr-6;
 	}
+
+	#nprogress .bar {
+		@apply bg-black !important;
+		@apply h-[3px] !important;
+	}
 }

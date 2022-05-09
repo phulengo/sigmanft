@@ -1,3 +1,3 @@
 export const formatAvatarStyle = (style: string) => {
-	return style.replaceAll("{", "").replaceAll("}", "").replace(`"background":`, "").replaceAll('"', "");
+	return style.replace(/{/g, "").replace(/}/g, "").replace(`"background":`, "").replace(/"/g, "");
 };
