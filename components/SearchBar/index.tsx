@@ -18,7 +18,7 @@ export const SearchBar = ({ className, keyWords }: SearchBarProps) => {
 
 	const handleSubmitSearch = async (event: React.FormEvent<HTMLFormElement> | HTMLFormElement) => {
 		(event as FormEvent<HTMLFormElement>).preventDefault();
-		await router.push(`explore?keywords=${searchKeyWords}`);
+		await router.push(`/explore?keywords=${searchKeyWords}`);
 	};
 
 	useEffect(() => {
