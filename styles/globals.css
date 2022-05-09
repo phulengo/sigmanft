@@ -612,6 +612,11 @@
 
 	.artwork-uploader__container {
 		@apply relative self-start;
+		@apply xs:max-w-full;
+	}
+
+	.artwork-uploader__container .artwork-uploader {
+		@apply xs:max-w-full;
 	}
 
 	.artwork-uploader__container:hover .artwork-uploader {
@@ -1370,7 +1375,7 @@
 		@apply bg-no-repeat bg-right pr-6;
 	}
 
-	#nprogress .bar {
+	#nprogress div.bar {
 		@apply bg-black !important;
 		@apply h-[3px] !important;
 	}
