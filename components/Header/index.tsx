@@ -181,7 +181,11 @@ const Header = () => {
 					<div className={`${openNavigationBar ? "navigation-bar--open" : "navigation-bar--close"}`}>
 						<div className="flex flex-col justify-between h-full">
 							<div className="flex flex-col gap-4">
-								<h1 className="nav-bar__link">About</h1>
+								<Link href={`/about`} passHref>
+									<a>
+										<h1 className="nav-bar__link">About</h1>
+									</a>
+								</Link>
 								<Link href={`/explore`} passHref>
 									<a>
 										<h1 className="nav-bar__link">Explore</h1>
@@ -230,7 +234,11 @@ const Header = () => {
 								<div className="nav-bar__link">Explore</div>
 							</a>
 						</Link>
-						<div className="nav-bar__link">About</div>
+						<Link href={`/about`} passHref>
+							<a>
+								<div className="nav-bar__link">About</div>
+							</a>
+						</Link>
 
 						{accountData ? (
 							<>

@@ -14,10 +14,19 @@ import { ArtworkCard } from "components/ArtworkCard";
 import { Button } from "components/Button";
 import { Checkbox } from "components/Checkbox";
 import { MarketplaceContext } from "components/ContractProvider/MarketplaceProvider";
-import Header from "components/Header";
-import { MetaTags } from "components/MetaTags";
-import { IArtworkData, IArtworkItemData, IArtworkProps, IMetaData, IUserData, IUserProps } from "lib/interfaces";
 import { NFTContext } from "components/ContractProvider/NFTProvider";
+import { Footer } from "components/Footer";
+import Header from "components/Header";
+import { Icon, IconWallet } from "components/Icon";
+import { Input } from "components/Input";
+import { Label } from "components/Label";
+import { MetaTags } from "components/MetaTags";
+import Modal from "components/Modal";
+import { ProfileCard } from "components/ProfileCard";
+import { RadioInput } from "components/RadioInput";
+import { SearchBar } from "components/SearchBar";
+import { Select } from "components/Select";
+import { IArtworkData, IArtworkItemData, IArtworkProps, IMetaData, IUserData, IUserProps } from "lib/interfaces";
 import {
 	filterAvailabilityArtworks,
 	filterTypeArtworks,
@@ -26,16 +35,7 @@ import {
 	searchArtworksByName,
 	sortArtworks,
 } from "./api/artworks/artwork";
-import { Label } from "components/Label";
 import { getAllUsers, searchProfilesByNameOrUsername, sortProfiles } from "./api/auth/user";
-import { ProfileCard } from "components/ProfileCard";
-import { Select } from "components/Select";
-import { SearchBar } from "components/SearchBar";
-import Modal from "components/Modal";
-import { Icon, IconWallet } from "components/Icon";
-import { Input } from "components/Input";
-import { RadioInput } from "components/RadioInput";
-import { Footer } from "components/Footer";
 
 export const getServerSideProps: GetServerSideProps = async (props: any) => {
 	const { data: artworksData } = await getAllArtworks();
@@ -57,6 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (props: any) => {
 
 const ExplorePage: NextPage = ({ artworksData, profilesData, searchKeyWordsData }: any) => {
 	const [loading, setLoading] = useState(true);
+	const [currentMainHeight, setCurrentMainHeight] = useState(0);
 	const [artworks, setArtworks] = useState<IArtworkProps>(artworksData);
 	!artworks && setArtworks(artworksData);
 
@@ -68,7 +69,14 @@ const ExplorePage: NextPage = ({ artworksData, profilesData, searchKeyWordsData 
 	useEffect(() => {
 		setArtworks(artworksData);
 		setProfiles(profilesData);
-	}, [artworksData, profilesData]);
+
+		if (typeof document !== "undefined") {
+			setCurrentMainHeight(document.getElementsByTagName("main")[0].offsetHeight);
+			setTimeout(() => {
+				document.getElementsByTagName("main")[0].classList.add(`h-[calc(100vh-${currentMainHeight}px)]`);
+			}, 50);
+		}
+	}, [artworksData, profilesData, currentMainHeight]);
 
 	const router = useRouter();
 

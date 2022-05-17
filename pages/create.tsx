@@ -16,7 +16,13 @@ const CreateNewArtworkPage = () => {
 		<>
 			<MetaTags title="Create New Artwork on SigmaNFT | SigmaNFT" />
 			<Header />
-			<main>{currentUser && accountData ? <CreateNewArtworkForm /> : <div>Please log in</div>}</main>
+			<main>
+				{currentUser && accountData ? (
+					<CreateNewArtworkForm />
+				) : (
+					<div className="h-[calc(100vh-112px-56px-134px)]">Please log in</div>
+				)}
+			</main>
 			<Footer />
 		</>
 	);

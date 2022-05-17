@@ -45,16 +45,16 @@ const NFTProvider = ({ children }: any) => {
 			loadContracts();
 		};
 
-		if (!nft && loading) {
+		if (!nft && loading && accountData) {
 			setTimeout(() => {
 				if (accountData) {
 					void loadDataWithSigner();
 				} else {
 					loadDataWithProvider();
 				}
-			}, 5);
+			}, 50);
 		}
-	}, [connectorData, nft, loading, accountData]);
+	}, [nft, loading, accountData]);
 
 	return <NFTContext.Provider value={nft as ISigmaNFT}>{children}</NFTContext.Provider>;
 };

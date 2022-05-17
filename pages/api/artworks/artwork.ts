@@ -129,6 +129,7 @@ export const filterAvailabilityArtworks = async (keywords?: string, sortBy?: str
 };
 
 export const filterTypeArtworks = async (keywords?: string, sortBy?: string, type?: string) => {
+	console.log("🚀 ~ file: artwork.ts ~ line 132 ~ filterTypeArtworks ~ type", type);
 	const { data, error } =
 		type === "image"
 			? keywords

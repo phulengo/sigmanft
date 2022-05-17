@@ -44,7 +44,7 @@ const MarketplaceProvider = ({ children }: any) => {
 			loadMarketplace();
 		};
 
-		if (!marketplace && loading) {
+		if (!marketplace && loading && accountData) {
 			setTimeout(() => {
 				if (accountData) {
 					void loadDataWithSigner();

@@ -13,19 +13,19 @@ import { ArtworkCard } from "components/ArtworkCard";
 import { Avatar } from "components/Avatar";
 import { Button } from "components/Button";
 import { MarketplaceContext } from "components/ContractProvider/MarketplaceProvider";
+import { NFTContext } from "components/ContractProvider/NFTProvider";
+import { Footer } from "components/Footer";
 import Header from "components/Header";
+import { Icon } from "components/Icon";
+import { Label } from "components/Label";
 import { MetaTags } from "components/MetaTags";
+import { UserContext } from "components/UserProvider";
+import { getArtworkById, getArtworksCreatedByUserId } from "pages/api/artworks/artwork";
 import { getUserById, getUserByUsername } from "pages/api/users/user";
 import { IArtworkData, IArtworkProps, IUserData } from "lib/interfaces";
 import { formatAvatarStyle } from "utils/formatAvatarStyle";
 import getRandomAvatarColorFromAddress from "utils/getRandomAvatarColorFromAddress";
 import { handleLongWalletAddress } from "utils/handleLongWalletAddress";
-import { Icon } from "components/Icon";
-import { Label } from "components/Label";
-import { UserContext } from "components/UserProvider";
-import { getArtworkById, getArtworksCreatedByUserId } from "pages/api/artworks/artwork";
-import { NFTContext } from "components/ContractProvider/NFTProvider";
-import { Footer } from "components/Footer";
 
 interface IParams extends ParsedUrlQuery {
 	owner_id: string;
@@ -73,6 +73,7 @@ const ProfilePage = ({ userData, artworksCreatedData }: any) => {
 	const currentUser = useContext(UserContext);
 	const artworksCreated = artworksCreatedData as IArtworkProps;
 	const [artworksCollected, setArtworksCollected] = useState<IArtworkProps>();
+	const [currentMainHeight, setCurrentMainHeight] = useState(0);
 
 	const { asPath } = useRouter();
 	const profileBackground =
@@ -101,6 +102,9 @@ const ProfilePage = ({ userData, artworksCreatedData }: any) => {
 		};
 
 		marketplace && nft && typeof artworksCollected === "undefined" && void getPurchase();
+		if (typeof document !== "undefined") {
+			setCurrentMainHeight(document.getElementsByTagName("main")[0].offsetHeight);
+		}
 	}, [marketplace, nft, user, artworksCollected]);
 
 	return (

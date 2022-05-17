@@ -1,46 +1,59 @@
-# Advanced Sample Hardhat Project
+<p align="center">
+  <a href="https://sigmanft.vercel.app/" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://sigmanft.vercel.app/sigmanft-logo.svg" alt="Sigmanft logo">
+  </a>
+</p>
+<br/>
+<p align="center" style="display: flex;justify-content: center;gap: 4px;">
+  <a href="https://github.com/phulengo/sigmanft/deployments"><img src="https://img.shields.io/github/deployments/phulengo/sigmanft/production?label=vercel&logo=vercel&logoColor=white" alt="deployment status"></a>
+  <a href="https://wakatime.com/@phulengo/projects/iqotlbanal?start=2022-05-11&end=2022-05-17"><img src="https://wakatime.com/badge/user/d6421665-4d44-4679-9950-30e9a0dcd423/project/61db5541-4d8e-4120-b26c-a99ffbe30ed2.svg" alt="total time"></a>
+  <a href="https://github.com/phulengo/sigmanft"><img src="https://img.shields.io/github/license/phulengo/sigmanft?style=flat" alt="license badge"></a>
+</p>
+<br/>
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+# Sigmanft
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+> Sigma NFT Marketplace
 
-Try running some of the following tasks:
+## What is Sigmanft?
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
-```
+A personal project for COMP1682 subject which represents an NFT marketplace where users can use their own blockchain wallet to connect and create or purchase from other users.
 
-# Etherscan verification
+## Stacks
 
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
+- Core
+  - [x] Next.js/TypeScript
+  - [x] Hardhat
+  - [x] TailwindCSS
+  - [x] Supabase
+- Others
+  - [x] Wagmi
+  - [x] Siwe/Iron-session
+  - [x] Husky/Lint-staged
+  - [ ] ...
 
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
+## Installation
 
-```shell
-hardhat run --network ropsten scripts/deploy.ts
-```
+1. Clone this repo
 
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
+2. `yarn install`
 
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
-```
+3. `npx hardhat run --network [localhost/rinkeby] scripts/deploy.ts`
 
-# Performance optimizations
+4. `yarn dev`
 
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+5. Check out [http://localhost:3000/](http://localhost:3000/)
+
+6. Enjoy
+
+## Deployment
+
+[sigmanft.vercel.app](https://sigmanft.vercel.app/)
+
+## Facing errors when cloning this project?
+
+Contact me through [my email](mailto:phulngcs18529@fpt.edu.vn).
+
+## License
+
+IMS is licensed under the [GPL-3.0 license](https://github.com/phulengo/sigmanft/blob/main/LICENSE).
