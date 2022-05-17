@@ -167,7 +167,7 @@ const insertNewArtwork = async (
 			centralized_storage_url: centralizedStorageUrl,
 			etherscan_link: `${process.env.NEXT_PUBLIC_ETHERSCAN_ADDRESS_GATEWAY as string}/${
 				process.env.NEXT_PUBLIC_SIGMANFT_CONTRACT_ADDRESS as string
-			}?a=${tokenId + 1}`,
+			}?a=${tokenId + 7}`,
 			ipfs_link: ipfsLink,
 			metadata_link: metadataLink,
 			owner_id: ownerId,

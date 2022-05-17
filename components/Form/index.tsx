@@ -135,7 +135,7 @@ export const CreateNewArtworkForm = () => {
 
 	const handleCreateNewArtwork = async (event: React.FormEvent<HTMLFormElement> | HTMLFormElement) => {
 		(event as FormEvent<HTMLFormElement>).preventDefault();
-		const tokenId = await marketplace?.itemCount();
+		const tokenId = marketplace && (await marketplace?.itemCount());
 
 		try {
 			if (artwork) {
