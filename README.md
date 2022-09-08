@@ -56,4 +56,4 @@ Contact me through [my email](mailto:phulngcs18529@fpt.edu.vn).
 
 ## License
 
-IMS is licensed under the [GPL-3.0 license](https://github.com/phulengo/sigmanft/blob/main/LICENSE).
+Sigmanft is licensed under the [GPL-3.0 license](https://github.com/phulengo/sigmanft/blob/main/LICENSE).
