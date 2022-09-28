@@ -9,7 +9,7 @@ import { handleSyncNewArtworkOnDatabase } from "./supabase";
 const auth =
 	"Basic " +
 	Buffer.from(
-		`${process.env.NEXT_PUBLIC_INFURA_KEY as string}:${process.env.NEXT_PUBLIC_INFURA_SECRET_KEYL as string}`
+		`${process.env.NEXT_PUBLIC_INFURA_KEY as string}:${process.env.NEXT_PUBLIC_INFURA_SECRET_KEY as string}`
 	).toString("base64");
 
 // const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
