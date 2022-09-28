@@ -92,7 +92,7 @@ const ProfilePage = ({ userData, artworksCreatedData }: any) => {
 			results && setPurchasedItemsLength(results.length);
 			results?.map(async (item) => {
 				const URI = nft && (await nft.tokenURI(item.args.tokenId));
-				const boughtArtworkId = URI && URI.split("https://ipfs.infura.io/ipfs/")[1];
+				const boughtArtworkId = URI && URI.split("https://infura-ipfs.io/ipfs/")[1];
 				const { data: boughtArtworkByUser } = await getArtworkById(boughtArtworkId as string);
 				boughtArtworkByUser && tempArtworkCollected.push(boughtArtworkByUser);
 			});
