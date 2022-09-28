@@ -1,12 +1,28 @@
 import { ethers } from "ethers";
-import { create } from "ipfs-http-client";
+import * as ipfsClient from "ipfs-http-client";
 import { NFTStorage } from "nft.storage";
 import toast from "react-hot-toast";
 import { SigmaNFT as ISigmaNFT, SigmaNFTMarketplace as ISigmaNFTMarketplace } from "typechain-types";
 import { IArtworkData } from "./interfaces";
 import { handleSyncNewArtworkOnDatabase } from "./supabase";
 
-const client = create({ url: "https://ipfs.infura.io:5001" });
+const auth =
+	"Basic " +
+	Buffer.from(
+		`${process.env.NEXT_PUBLIC_INFURA_KEY as string}:${process.env.NEXT_PUBLIC_INFURA_SECRET_KEYL as string}`
+	).toString("base64");
+
+// const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
+
+const client = ipfsClient.create({
+	host: "ipfs.infura.io",
+	port: 5001,
+	protocol: "https",
+	apiPath: "/api/v0",
+	headers: {
+		authorization: auth,
+	},
+});
 
 const uploadFileToInfuraIPFS = async (file: File) => {
 	const uploaded = await client.add(file);
